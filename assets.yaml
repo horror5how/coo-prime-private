@@ -1,0 +1,64 @@
+# COO-Prime — Governed Assets Inventory
+# Populated by inventory-sync routine. Source of truth for cross-repo governance.
+# Updated: 2026-04-19 (initial discovery via GitHub API)
+
+version: 1.0
+updated: 2026-04-19
+
+github:
+  owner: horror5how
+  repos:
+    - name: coo-prime-private
+      visibility: private
+      role: "COO-Prime HQ — spec, audit, routines, dispatcher"
+      governance: self
+      workflows: []  # populated post-push
+
+    - name: beyond-elevation
+      visibility: public
+      role: "Beyond Elevation website + content pipeline"
+      governance: managed
+      stack: [HTML, Vercel]
+      workflows:
+        - path: .github/workflows/auto-merge-scheduled-posts.yml
+          name: "Auto-merge scheduled-task blog posts into main"
+          state: active
+          coo_policy: observe  # do not modify; COO-Prime watches runs
+          failure_incident: open_incident_on_fail
+        - path: .github/workflows/daily-digest.yml
+          name: "Daily AI & GitHub Digest Email"
+          state: active
+          coo_policy: observe
+          note: "Overlaps with COO-Prime's reporting charter. Review for consolidation."
+          failure_incident: open_incident_on_fail
+        - path: .github/workflows/deploy.yml
+          name: "Deploy to Vercel Production"
+          state: active
+          coo_policy: observe_and_rollback  # deploy-health routine may rollback on P0
+          failure_incident: open_incident_on_fail
+
+    - name: purpose-ai-mvp
+      visibility: private
+      role: "Purpose AI MVP — TypeScript product"
+      governance: managed
+      stack: [TypeScript]
+      workflows:
+        - path: .github/workflows/ci.yml
+          name: "CI"
+          state: active
+          coo_policy: observe  # fails are incidents, no auto-remediation
+          failure_incident: open_incident_on_fail
+
+# External schedulers COO-Prime should reach (populated by inventory-sync on next run)
+external:
+  claude_code_cloud_triggers: []     # /schedule entries on claude.ai/code
+  zapier_zaps: []                    # from Zapier MCP
+  vercel_crons: []                   # per-project
+  supabase_pg_cron: []               # per-project
+  gmail_filters_and_labels: []       # for inbox-triage mapping
+
+# Governance review queue (things COO-Prime flagged for user decision)
+review_queue:
+  - item: "daily-digest.yml in beyond-elevation overlaps with COO-Prime QA reports"
+    suggestion: "Consolidate under QA-3 evening pass or retire standalone workflow"
+    priority: low

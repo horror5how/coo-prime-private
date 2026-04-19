@@ -18,12 +18,12 @@ cloud/
 ### 1. Create private backup + execution repo
 
 ```bash
-gh repo create hayatamin/coo-prime-private --private --description "COO-Prime cloud execution + backup"
+gh repo create horror5how/coo-prime-private --private --description "COO-Prime cloud execution + backup"
 cd ~/.claude/coo-prime
 git init
 git add -A
 git commit -m "coo-prime: initial cloud deployment v1.0"
-git remote add origin git@github.com:hayatamin/coo-prime-private.git
+git remote add origin git@github.com:horror5how/coo-prime-private.git
 git push -u origin main
 ```
 

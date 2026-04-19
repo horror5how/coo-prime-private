@@ -10,7 +10,7 @@
 
 | Asset | Primary | Backup | Frequency |
 |---|---|---|---|
-| `spec.md` | `~/.claude/coo-prime/spec.md` | `github.com/hayatamin/coo-prime-private` | on change |
+| `spec.md` | `~/.claude/coo-prime/spec.md` | `github.com/horror5how/coo-prime-private` | on change |
 | `routines/*.yaml` | local | same repo | on change |
 | `audit.log` | local (append-only) | same repo, daily snapshot | daily 19:30 |
 | `state.json` | local | same repo, daily snapshot | daily 19:30 |
@@ -28,7 +28,7 @@
 curl -fsSL https://claude.ai/install.sh | sh
 
 # 2. Clone backup
-gh repo clone hayatamin/coo-prime-private ~/.claude/coo-prime-restore
+gh repo clone horror5how/coo-prime-private ~/.claude/coo-prime-restore
 
 # 3. Merge into ~/.claude/
 cp -r ~/.claude/coo-prime-restore/. ~/.claude/coo-prime/

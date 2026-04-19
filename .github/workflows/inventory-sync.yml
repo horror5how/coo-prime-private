@@ -1,0 +1,12 @@
+name: coo-inventory-sync
+on:
+  schedule:
+    - cron: "0 6 * * 2"
+  workflow_dispatch:
+jobs:
+  run:
+    uses: ./.github/workflows/_runner.yml
+    with:
+      routine_id: inventory-sync
+      tier: A
+    secrets: inherit

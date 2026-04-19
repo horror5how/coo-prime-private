@@ -7,7 +7,7 @@ inputs: []
 steps:
   - git add -A inside ~/.claude/coo-prime (excluding .signing-key via .gitignore)
   - commit "snapshot: YYYY-MM-DD"
-  - push to github.com/hayatamin/coo-prime-private (create repo on first run if missing, private, via gh CLI)
+  - push to github.com/horror5how/coo-prime-private (create repo on first run if missing, private, via gh CLI)
   - export weekly L1 snapshot to Drive (Sundays only)
 success_criteria:
   - check: "remote HEAD sha matches local HEAD sha after push"

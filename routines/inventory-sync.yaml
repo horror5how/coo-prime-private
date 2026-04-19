@@ -1,0 +1,35 @@
+id: inventory-sync
+tier: A
+owner: COO-Prime
+schedule: "cron: 0 6 * * 2"  # Tuesdays 06:00 UTC
+purpose: "Weekly discovery of all user-owned automation assets across GitHub, Zapier, Vercel, Supabase, Claude Code cloud. Updates assets.yaml."
+inputs: []
+steps:
+  - list all user repos via GET /user/repos
+  - for each repo: list workflows, cron-scheduled actions, recent run outcomes
+  - query Zapier MCP for zaps
+  - query Vercel for cron jobs per project
+  - query Supabase for pg_cron entries
+  - query Claude Code /schedule list
+  - diff against assets.yaml; add new, flag removed
+  - new assets default to policy=observe until user sets governance
+  - write incidents for any observed workflow with failure rate > 20% over 30d
+success_criteria:
+  - check: "assets.yaml updated timestamp = today"
+  - check: "every active user asset is represented"
+  - check: "review_queue has entries for any policy=unset items"
+failure_modes:
+  - name: api_rate_limit
+    remediation: backoff_and_retry; partial update acceptable
+  - name: auth_expired_any_provider
+    remediation: auto_refresh_token; if no refresh_token available: log and continue, queue OAuth repair at next user session
+max_retries: 2
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/inventory-sync.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY, GH_TOKEN]

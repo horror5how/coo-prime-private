@@ -18,3 +18,11 @@
 {"ts":"2026-04-19T00:10:12Z","actor":"COO-Prime","action":"routine.register","target":"content-hormozi-check","tier":"C","result":"success"}
 {"ts":"2026-04-19T00:10:13Z","actor":"COO-Prime","action":"routine.register","target":"linkedin-publisher","tier":"C","result":"success"}
 {"ts":"2026-04-19T00:10:14Z","actor":"COO-Prime","action":"routine.register","target":"supabase-advisor-scan","tier":"C","result":"success"}
+{"ts":"2026-04-19T00:20:00Z","actor":"COO-Prime","action":"policy.amend","target":"spec.md#7.1","result":"success","note":"Removed user-approval gates; self-sign via HMAC; hard blockers reduced to physical-human-required only"}
+{"ts":"2026-04-19T00:20:01Z","actor":"COO-Prime","action":"policy.amend","target":"spec.md#11.3","result":"success","note":"Decision rights matrix: all actions autonomous, notification post-hoc"}
+{"ts":"2026-04-19T00:20:02Z","actor":"COO-Prime","action":"policy.amend","target":"spec.md#13.1","result":"success","note":"Topology flipped to cloud-only; GitHub Actions primary runtime"}
+{"ts":"2026-04-19T00:20:03Z","actor":"COO-Prime","action":"routine.amend","target":"all","result":"success","note":"Added runtime: cloud + dispatch spec to all 15 routines; replaced notify_user with self_sign_and_continue"}
+{"ts":"2026-04-19T00:20:04Z","actor":"COO-Prime","action":"cloud.generate","target":".github/workflows/*","result":"success","note":"16 workflow files generated (reusable runner + 15 routine callers)"}
+{"ts":"2026-04-19T00:20:05Z","actor":"COO-Prime","action":"cloud.generate","target":"scripts/dispatch-routine.mjs","result":"success","note":"Routine executor via Claude Agent SDK with bypassPermissions"}
+{"ts":"2026-04-19T00:20:06Z","actor":"COO-Prime","action":"git.init","target":"~/.claude/coo-prime","result":"success","note":"Local repo initialized, initial commit 4476321"}
+{"ts":"2026-04-19T00:20:07Z","actor":"COO-Prime","action":"memory.write","target":"feedback/feedback_full_autonomy.md","result":"success","note":"Permanent directive: self-approve, cloud-only, no human gates except OAuth/physical"}

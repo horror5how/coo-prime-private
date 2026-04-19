@@ -440,7 +440,7 @@ All decisions below: **COO-Prime autonomous, user notified post-hoc.** No human 
 ## 14. Resolved Placeholders
 
 - [x] **Secrets manifest** — `~/.claude/coo-prime/secrets.manifest.json` (names/sources only; values stay in keychain/env) (§6.3)
-- [x] **Backup repo** — `github.com/hayatamin/coo-prime-private` (to be created on first push; daily snapshot of spec/routines/audit/state/feedback/incidents) (§13.5)
+- [x] **Backup repo** — `github.com/horror5how/coo-prime-private` (to be created on first push; daily snapshot of spec/routines/audit/state/feedback/incidents) (§13.5)
 - [x] **DR runbook** — `~/.claude/coo-prime/DR-RUNBOOK.md` (§13.5)
 - [x] **Confidence threshold** — `0.70`. Below this, routine aborts pre-action and writes an incident with reason; it does NOT ask the user. Escalation router decides retry vs. park. (§8.3)
 - [x] **Existing routines to migrate** — `[]` (none discovered at bootstrap). Rescan on every QA-1 pass. (§8.2)
