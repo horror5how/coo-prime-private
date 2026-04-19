@@ -55,7 +55,6 @@ jobs:
       - name: Commit artifacts
         if: always()
         run: |
-          set -e
           git config user.name "coo-prime-bot"
           git config user.email "coo-prime@users.noreply.github.com"
           for f in audit.log state.json assets.yaml; do
@@ -63,11 +62,21 @@ jobs:
           done
           [ -d qa ] && git add qa/ || true
           [ -d incidents ] && git add incidents/ || true
-          echo "==== staged changes ===="
-          git diff --staged --stat || true
           if git diff --staged --quiet; then
             echo "no artifact changes to commit"
-          else
-            git commit -m "coo-prime: ${{ inputs.routine_id }} $(date -u +%FT%TZ)"
-            git push origin HEAD:main -v 2>&1
+            exit 0
           fi
+          git commit -m "coo-prime: ${{ inputs.routine_id }} $(date -u +%FT%TZ)"
+          # Retry loop for concurrent push conflicts
+          for attempt in 1 2 3 4 5 6; do
+            if git push origin HEAD:main 2>&1; then
+              echo "push succeeded on attempt $attempt"
+              exit 0
+            fi
+            echo "push attempt $attempt failed; rebasing on origin/main..."
+            git fetch origin main
+            git rebase origin/main || { git rebase --abort; echo "rebase failed"; exit 1; }
+            sleep $((RANDOM % 4 + 1))
+          done
+          echo "push failed after 6 attempts"
+          exit 1
