@@ -5,7 +5,7 @@ schedule: "cron: 30 9 * * *"
 purpose: "Daily PR/issue sweep across user's repos."
 inputs: []
 steps:
-  - `gh pr list --author @me --state open` across user's orgs
+  - "gh pr list --author @me --state open across user's orgs"
   - for each: CI status, review state, days since last activity
   - nudge reviewers via comment if > 48h stale
   - auto-close PRs marked "abandoned" > 30d (logged, reversible via git)
@@ -15,9 +15,9 @@ success_criteria:
   - check: "no PR > 7d without a nudge or explicit 'on-hold' label"
 failure_modes:
   - name: gh_rate_limit
-    remediation: backoff_and_retry
+    remediation: "backoff_and_retry"
   - name: ci_persistently_red
-    remediation: open incident, skip nudge
+    remediation: "open incident, skip nudge"
 max_retries: 3
 escalation:
   after_retries: self_sign_and_continue

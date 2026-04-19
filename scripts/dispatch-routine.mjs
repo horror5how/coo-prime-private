@@ -134,19 +134,36 @@ function secretsRotationCheck() {
 async function inventorySync() {
   const token = process.env.GH_TOKEN;
   if (!token) return { notes: 'GH_TOKEN missing; skipped' };
+  const assetsPath = `${root}/assets.yaml`;
+  const prior = existsSync(assetsPath) ? yaml.load(readFileSync(assetsPath, 'utf8')) : {};
+  const priorRepos = new Map((prior?.github?.repos || []).map(r => [r.name, r]));
+  const priorWfs = new Map();
+  for (const r of prior?.github?.repos || []) for (const w of r.workflows || []) priorWfs.set(`${r.name}:${w.path}`, w);
+
   const repos = await ghGet('/user/repos?per_page=100&sort=updated', token);
-  const assets = { version: 1, updated: new Date().toISOString().slice(0, 10), github: { owner: repos[0]?.owner?.login, repos: [] } };
+  const newRepos = [];
   for (const r of repos) {
     const wfs = await ghGet(`/repos/${r.full_name}/actions/workflows`, token).catch(() => ({ workflows: [] }));
-    assets.github.repos.push({
+    const existing = priorRepos.get(r.name) || {};
+    newRepos.push({
+      ...existing,
       name: r.name,
       visibility: r.private ? 'private' : 'public',
-      governance: r.name === 'coo-prime-private' ? 'self' : 'managed',
-      workflows: (wfs.workflows || []).map(w => ({ path: w.path, name: w.name, state: w.state })),
+      governance: existing.governance || (r.name === 'coo-prime-private' ? 'self' : 'managed'),
+      workflows: (wfs.workflows || []).map(w => ({
+        ...(priorWfs.get(`${r.name}:${w.path}`) || {}),
+        path: w.path, name: w.name, state: w.state,
+      })),
     });
   }
-  writeFileSync(`${root}/assets.yaml`, yaml.dump(assets));
-  return { notes: `inventoried ${assets.github.repos.length} repos` };
+  const merged = {
+    ...prior,
+    version: prior?.version || 1,
+    updated: new Date().toISOString().slice(0, 10),
+    github: { owner: repos[0]?.owner?.login || prior?.github?.owner, repos: newRepos },
+  };
+  writeFileSync(assetsPath, yaml.dump(merged, { lineWidth: 120 }));
+  return { notes: `inventoried ${newRepos.length} repos (merged with prior governance policies)` };
 }
 
 function qaPass(id) {

@@ -16,9 +16,9 @@ success_criteria_hard_stop:
   - "if .signing-key appears in staged diff: abort, open P0 incident"
 failure_modes:
   - name: gh_auth_expired
-    remediation: auto_refresh_token; if no refresh_token available: log and continue, queue OAuth repair at next user session (per autonomy policy)
+    remediation: "auto_refresh_token; if no refresh_token available: log and continue, queue OAuth repair at next user session (per autonomy policy)"
   - name: network_failure
-    remediation: backoff_and_retry up to 3x, then park until next QA
+    remediation: "backoff_and_retry up to 3x, then park until next QA"
 max_retries: 3
 escalation:
   after_retries: self_sign_and_continue

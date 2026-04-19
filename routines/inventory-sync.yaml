@@ -20,9 +20,9 @@ success_criteria:
   - check: "review_queue has entries for any policy=unset items"
 failure_modes:
   - name: api_rate_limit
-    remediation: backoff_and_retry; partial update acceptable
+    remediation: "backoff_and_retry; partial update acceptable"
   - name: auth_expired_any_provider
-    remediation: auto_refresh_token; if no refresh_token available: log and continue, queue OAuth repair at next user session
+    remediation: "auto_refresh_token; if no refresh_token available: log and continue, queue OAuth repair at next user session"
 max_retries: 2
 escalation:
   after_retries: self_sign_and_continue

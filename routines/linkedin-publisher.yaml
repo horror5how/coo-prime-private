@@ -18,11 +18,11 @@ success_criteria:
   - check: "content_hash logged with pass decision"
 failure_modes:
   - name: hormozi_reject
-    remediation: return to draft with suggestions; do NOT retry automatically
+    remediation: "return to draft with suggestions; do NOT retry automatically"
   - name: linkedin_token_expired
-    remediation: auto_refresh_token; if no refresh_token available: log and continue, queue OAuth repair at next user session
+    remediation: "auto_refresh_token; if no refresh_token available: log and continue, queue OAuth repair at next user session"
   - name: linkedin_api_error
-    remediation: backoff_and_retry 2x, then park
+    remediation: "backoff_and_retry 2x, then park"
 max_retries: 2
 escalation:
   after_retries: self_sign_and_continue
