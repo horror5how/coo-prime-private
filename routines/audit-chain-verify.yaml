@@ -1,0 +1,27 @@
+id: audit-chain-verify
+tier: A
+owner: COO-Prime
+schedule: "cron: 0 6 * * 1"  # Mondays 06:00
+purpose: "Full audit-log hash-chain verification. Also runs on every bootstrap (incremental)."
+inputs: []
+steps:
+  - read audit.log line by line
+  - recompute sha256(prev_hash || canonical(record)) for each record
+  - compare with stored prev_hash of next record
+  - flag first break point if any
+success_criteria:
+  - check: "all N records verify"
+  - check: "result written to qa/YYYY-MM-DD-audit-verify.md"
+failure_modes:
+  - name: chain_break
+    remediation: quarantine post-break entries, restore from backup, open P0 incident
+max_retries: 1
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/audit-chain-verify.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

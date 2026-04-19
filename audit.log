@@ -1,0 +1,20 @@
+{"ts":"2026-04-19T00:00:00Z","actor":"COO-Prime","action":"genesis","target":"audit.log","input_hash":"sha256:0000000000000000000000000000000000000000000000000000000000000000","result":"success","duration_ms":0,"prev_hash":"sha256:0000000000000000000000000000000000000000000000000000000000000000","note":"Genesis entry. Chain root."}
+{"ts":"2026-04-19T00:00:01Z","actor":"COO-Prime","action":"placeholder.resolve","target":"spec.md#14","result":"success","note":"6/6 placeholders resolved with best-judgment defaults per act-first directive"}
+{"ts":"2026-04-19T00:00:02Z","actor":"COO-Prime","action":"memory.write","target":"~/.claude/CLAUDE.md","result":"success","note":"Permanent autonomy directive recorded: act first, no option menus"}
+{"ts":"2026-04-19T00:00:03Z","actor":"COO-Prime","action":"memory.write","target":"feedback/feedback_act_first.md","result":"success","note":"Feedback memory with Why + How to apply"}
+{"ts":"2026-04-19T00:00:04Z","actor":"COO-Prime","action":"secret.generate","target":".signing-key","result":"success","note":"HMAC-SHA256 elevated-action signing key, 0600"}
+{"ts":"2026-04-19T00:10:00Z","actor":"COO-Prime","action":"routine.register","target":"qa-morning","tier":"A","result":"success"}
+{"ts":"2026-04-19T00:10:01Z","actor":"COO-Prime","action":"routine.register","target":"qa-midday","tier":"A","result":"success"}
+{"ts":"2026-04-19T00:10:02Z","actor":"COO-Prime","action":"routine.register","target":"qa-evening","tier":"A","result":"success"}
+{"ts":"2026-04-19T00:10:03Z","actor":"COO-Prime","action":"routine.register","target":"memory-consolidate","tier":"A","result":"success"}
+{"ts":"2026-04-19T00:10:04Z","actor":"COO-Prime","action":"routine.register","target":"backup-snapshot","tier":"A","result":"success"}
+{"ts":"2026-04-19T00:10:05Z","actor":"COO-Prime","action":"routine.register","target":"bootstrap-self-check","tier":"A","result":"success"}
+{"ts":"2026-04-19T00:10:06Z","actor":"COO-Prime","action":"routine.register","target":"prevention-distill","tier":"A","result":"success"}
+{"ts":"2026-04-19T00:10:07Z","actor":"COO-Prime","action":"routine.register","target":"audit-chain-verify","tier":"A","result":"success"}
+{"ts":"2026-04-19T00:10:08Z","actor":"COO-Prime","action":"routine.register","target":"secrets-rotation-check","tier":"A","result":"success"}
+{"ts":"2026-04-19T00:10:09Z","actor":"COO-Prime","action":"routine.register","target":"inbox-triage","tier":"B","result":"success"}
+{"ts":"2026-04-19T00:10:10Z","actor":"COO-Prime","action":"routine.register","target":"deploy-health","tier":"B","result":"success"}
+{"ts":"2026-04-19T00:10:11Z","actor":"COO-Prime","action":"routine.register","target":"github-pr-triage","tier":"B","result":"success"}
+{"ts":"2026-04-19T00:10:12Z","actor":"COO-Prime","action":"routine.register","target":"content-hormozi-check","tier":"C","result":"success"}
+{"ts":"2026-04-19T00:10:13Z","actor":"COO-Prime","action":"routine.register","target":"linkedin-publisher","tier":"C","result":"success"}
+{"ts":"2026-04-19T00:10:14Z","actor":"COO-Prime","action":"routine.register","target":"supabase-advisor-scan","tier":"C","result":"success"}

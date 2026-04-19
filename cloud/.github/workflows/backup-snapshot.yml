@@ -1,0 +1,12 @@
+name: coo-backup-snapshot
+on:
+  schedule:
+    - cron: "45 19 * * *"
+  workflow_dispatch:
+jobs:
+  run:
+    uses: ./.github/workflows/_runner.yml
+    with:
+      routine_id: backup-snapshot
+      tier: A
+    secrets: inherit

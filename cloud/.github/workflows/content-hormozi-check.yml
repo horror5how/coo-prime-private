@@ -1,0 +1,15 @@
+name: coo-content-hormozi-check
+on:
+  workflow_dispatch:
+    inputs:
+      content_body: { required: true, type: string }
+      platform: { required: false, type: string, default: "linkedin" }
+  repository_dispatch:
+    types: [content-hormozi-check]
+jobs:
+  run:
+    uses: ./.github/workflows/_runner.yml
+    with:
+      routine_id: content-hormozi-check
+      tier: C
+    secrets: inherit

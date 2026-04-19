@@ -1,0 +1,16 @@
+name: coo-bootstrap-self-check
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'spec.md'
+      - 'routines/**'
+      - 'state.json'
+  workflow_dispatch:
+jobs:
+  run:
+    uses: ./.github/workflows/_runner.yml
+    with:
+      routine_id: bootstrap-self-check
+      tier: A
+    secrets: inherit

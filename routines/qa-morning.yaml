@@ -1,0 +1,31 @@
+id: qa-morning
+tier: A
+owner: COO-Prime
+schedule: "cron: 30 7 * * *"
+purpose: "QA Pass 1 — overnight schedule check, missed-run recovery, inbox triage."
+inputs: []
+steps:
+  - verify every registered routine ran overnight or has explicit skip reason
+  - requeue missed tasks per §6.2
+  - invoke inbox-triage, read flagged items
+  - diff scheduled-tasks (local + cloud), reconcile
+  - scan for new routines to migrate (was §14 placeholder)
+success_criteria:
+  - check: "qa/YYYY-MM-DD-pass-1.md exists with all 8 section checks filled"
+  - check: "no routine in REGISTERED state is missing from state.json queue"
+  - check: "audit chain verifies from last entry back 24h"
+failure_modes:
+  - name: audit_chain_broken
+    remediation: quarantine last N entries, rebuild from backup snapshot, open incident
+  - name: mcp_scheduled_tasks_unreachable
+    remediation: backoff_and_retry; park if 3 consecutive fails
+max_retries: 3
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/qa-morning.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

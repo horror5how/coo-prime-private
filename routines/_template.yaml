@@ -1,0 +1,16 @@
+id: example-routine
+owner: COO-Prime
+schedule: ondemand
+inputs: []
+success_criteria:
+  - check: "file exists at <path>"
+  - check: "HTTP 200 from <url>"
+failure_modes:
+  - name: auth_expired
+    remediation: refresh_oauth
+  - name: rate_limited
+    remediation: backoff_and_retry
+max_retries: 3
+escalation:
+  after_retries: notify_user
+  on_data_loss: halt_and_notify

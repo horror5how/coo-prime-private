@@ -1,0 +1,12 @@
+name: coo-qa-evening
+on:
+  schedule:
+    - cron: "30 17 * * *"
+  workflow_dispatch:
+jobs:
+  run:
+    uses: ./.github/workflows/_runner.yml
+    with:
+      routine_id: qa-evening
+      tier: A
+    secrets: inherit

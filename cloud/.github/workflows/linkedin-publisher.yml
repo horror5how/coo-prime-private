@@ -1,0 +1,15 @@
+name: coo-linkedin-publisher
+on:
+  workflow_dispatch:
+    inputs:
+      content_body: { required: true, type: string }
+      platform: { required: false, type: string, default: "linkedin" }
+  repository_dispatch:
+    types: [linkedin-publisher]
+jobs:
+  run:
+    uses: ./.github/workflows/_runner.yml
+    with:
+      routine_id: linkedin-publisher
+      tier: C
+    secrets: inherit

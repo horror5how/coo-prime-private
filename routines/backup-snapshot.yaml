@@ -1,0 +1,31 @@
+id: backup-snapshot
+tier: A
+owner: COO-Prime
+schedule: "cron: 45 19 * * *"
+purpose: "Daily push of spec/routines/audit/state/feedback/incidents to private backup repo."
+inputs: []
+steps:
+  - git add -A inside ~/.claude/coo-prime (excluding .signing-key via .gitignore)
+  - commit "snapshot: YYYY-MM-DD"
+  - push to github.com/hayatamin/coo-prime-private (create repo on first run if missing, private, via gh CLI)
+  - export weekly L1 snapshot to Drive (Sundays only)
+success_criteria:
+  - check: "remote HEAD sha matches local HEAD sha after push"
+  - check: ".signing-key is NOT in the commit (grep check)"
+success_criteria_hard_stop:
+  - "if .signing-key appears in staged diff: abort, open P0 incident"
+failure_modes:
+  - name: gh_auth_expired
+    remediation: auto_refresh_token; if no refresh_token available: log and continue, queue OAuth repair at next user session (per autonomy policy)
+  - name: network_failure
+    remediation: backoff_and_retry up to 3x, then park until next QA
+max_retries: 3
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/backup-snapshot.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

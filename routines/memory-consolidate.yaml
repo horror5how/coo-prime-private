@@ -1,0 +1,30 @@
+id: memory-consolidate
+tier: A
+owner: COO-Prime
+schedule: "cron: 30 19 * * *"
+purpose: "Daily memory consolidation — merge duplicates, prune stale, refresh index."
+inputs: []
+steps:
+  - invoke anthropic-skills:consolidate-memory
+  - prune feedback/*.md entries > 90d without reaffirmation
+  - rebuild MEMORY.md index
+  - re-embed touched entries into AgentDB (L2)
+success_criteria:
+  - check: "MEMORY.md updated timestamp = today"
+  - check: "no duplicate feedback titles"
+  - check: "AgentDB vector count matches feedback file count"
+failure_modes:
+  - name: agentdb_unreachable
+    remediation: queue re-embed for next bootstrap
+  - name: consolidate_skill_missing
+    remediation: fall back to manual dedup pass; open incident to install skill
+max_retries: 2
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/memory-consolidate.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

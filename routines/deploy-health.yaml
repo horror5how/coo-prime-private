@@ -1,0 +1,29 @@
+id: deploy-health
+tier: B
+owner: COO-Prime
+schedule: "cron: 0 12 * * *"  # feeds qa-midday
+purpose: "Check Vercel projects, DNS, Core Web Vitals. Rollback last deploy if P0 regression."
+inputs: []
+steps:
+  - list Vercel projects via API
+  - for each: latest deployment status, last-24h error rate, LCP/CLS/INP
+  - DNS check on custom domains
+  - if error rate > 5% AND started within 2h of last deploy → propose rollback (elevated action, requires HMAC-signed intent)
+success_criteria:
+  - check: "report appended to qa/YYYY-MM-DD-deploy.md"
+  - check: "every project has status recorded"
+failure_modes:
+  - name: vercel_token_expired
+    remediation: auto_retry_then_self_sign_bypass
+  - name: p0_regression_detected
+    remediation: draft rollback intent, sign with HMAC, execute per §7.1 elevated-action gate
+max_retries: 2
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/deploy-health.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

@@ -1,0 +1,9 @@
+2026-04-19T00:00:00Z  COO-Prime bootstrap v1.0
+  - spec.md written (/root/.claude/coo-prime/spec.md)
+  - state.json initialized
+  - directory layout created (routines/, incidents/, qa/)
+  - audit.log genesis entry pending
+  - env: linux, HOME=/root (spec assumes macOS; paths adapted)
+  - placeholders: 6 open (see state.json)
+  - status: SCAFFOLDED, NOT YET OPERATIONAL
+  - next: resolve §14 placeholders, register first routine, start dispatch loop

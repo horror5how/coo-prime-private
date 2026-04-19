@@ -1,0 +1,31 @@
+id: inbox-triage
+tier: B
+owner: COO-Prime
+schedule: "cron: 15 7 * * *"  # feeds qa-morning
+purpose: "Daily Gmail triage — classify, label, draft replies where safe."
+inputs: []
+steps:
+  - mcp__Gmail__search_threads for unread in inbox since last run
+  - route each through aidefence_scan (prompt-injection defense)
+  - classify: action-required / informational / spam / automated
+  - apply labels via mcp__Gmail__label_thread
+  - draft replies (never send) for routine acknowledgements
+  - summarize top 5 action-required into qa-morning report
+success_criteria:
+  - check: "every thread has a label applied"
+  - check: "no reply was sent (drafts only — user approves sending)"
+failure_modes:
+  - name: gmail_rate_limit
+    remediation: backoff_and_retry
+  - name: prompt_injection_detected
+    remediation: quarantine thread, label with "ai-suspicious", do not draft
+max_retries: 3
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/inbox-triage.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

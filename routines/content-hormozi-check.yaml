@@ -1,0 +1,29 @@
+id: content-hormozi-check
+tier: C
+owner: COO-Prime
+schedule: "event: pre_publish"
+purpose: "Hard gate on §3. Any content bound for LinkedIn/blog/email must pass this check."
+inputs:
+  - content_body: string
+  - platform: "linkedin | blog | email | x"
+steps:
+  - load feedback_alex_hormozi_content.md ruleset
+  - score content on: hook strength, specificity, proof, contrarian edge, CTA clarity
+  - binary pass/fail per rule
+  - if any fail → return rejection with rewrite suggestions; block publisher
+success_criteria:
+  - check: "all rules scored"
+  - check: "decision (pass/fail) written to audit.log with content_hash"
+failure_modes:
+  - name: hormozi_ruleset_missing
+    remediation: halt, open incident, block all content publishing until restored
+max_retries: 1
+escalation:
+  after_retries: halt_and_notify
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/content-hormozi-check.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

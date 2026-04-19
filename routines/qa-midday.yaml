@@ -1,0 +1,30 @@
+id: qa-midday
+tier: A
+owner: COO-Prime
+schedule: "cron: 30 12 * * *"
+purpose: "QA Pass 2 — mid-cycle routines, deploy health, content publishing check."
+inputs: []
+steps:
+  - invoke deploy-health routine
+  - verify success_criteria of every completed routine since qa-morning
+  - check open PRs for staleness (> 48h without activity)
+  - scan published content from AM for Hormozi compliance post-hoc
+success_criteria:
+  - check: "qa/YYYY-MM-DD-pass-2.md exists"
+  - check: "all AM routine outcomes have verified result field in audit.log"
+  - check: "no deployment in failed state without an open incident"
+failure_modes:
+  - name: vercel_api_down
+    remediation: park deploy checks, watcher on status.vercel.com, resume on 200
+  - name: content_standard_violation_post_publish
+    remediation: open incident, notify user (content already public — remediation window short)
+max_retries: 3
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/qa-midday.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

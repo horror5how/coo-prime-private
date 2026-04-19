@@ -1,0 +1,30 @@
+id: qa-evening
+tier: A
+owner: COO-Prime
+schedule: "cron: 30 17 * * *"
+purpose: "QA Pass 3 — end-of-day close, tomorrow prep, incident sweep."
+inputs: []
+steps:
+  - sweep open incidents; verify each has owner + next action
+  - produce tomorrow's routine queue preview
+  - check memory hygiene (MEMORY.md line count, stale entries > 30d)
+  - flag any routine with success rate < 95% over rolling 7d
+success_criteria:
+  - check: "qa/YYYY-MM-DD-pass-3.md exists"
+  - check: "MEMORY.md line count <= 200"
+  - check: "no incident > 24h old without remediation plan"
+failure_modes:
+  - name: memory_bloat
+    remediation: invoke memory-consolidate routine out of band
+  - name: incident_stalled
+    remediation: auto-escalate via escalation router
+max_retries: 3
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/qa-evening.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

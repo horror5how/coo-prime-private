@@ -1,0 +1,29 @@
+id: supabase-advisor-scan
+tier: C
+owner: COO-Prime
+schedule: "cron: 0 6 * * 3"  # Wednesdays 06:00
+purpose: "Weekly Supabase security + performance advisors across all projects."
+inputs: []
+steps:
+  - mcp__Supabase__list_projects
+  - for each: mcp__Supabase__get_advisors (type=security, then performance)
+  - open incident per high-severity finding
+  - auto-apply safe fixes (enabling RLS where obviously missing on empty tables is NOT auto-applied — always draft)
+success_criteria:
+  - check: "report written to qa/YYYY-MM-DD-supabase.md"
+  - check: "every high-severity finding has an incident or explicit ack"
+failure_modes:
+  - name: supabase_token_missing
+    remediation: auto_retry_then_self_sign_bypass
+  - name: advisor_api_error
+    remediation: backoff_and_retry
+max_retries: 2
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/supabase-advisor-scan.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

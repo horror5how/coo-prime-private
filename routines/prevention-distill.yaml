@@ -1,0 +1,27 @@
+id: prevention-distill
+tier: A
+owner: COO-Prime
+schedule: "cron: 0 20 * * 0"  # Sundays 20:00
+purpose: "Weekly distillation of last 7d incidents into prevention-rules.md."
+inputs: []
+steps:
+  - list incidents/ created since last distill
+  - cluster by root cause
+  - write/update prevention-rules.md with Why + How to apply per rule
+  - re-index rules into AgentDB for pre-action learning
+success_criteria:
+  - check: "prevention-rules.md modified today"
+  - check: "every incident from past 7d is referenced or explicitly marked one-off"
+failure_modes:
+  - name: no_incidents_this_week
+    remediation: skip with explicit log entry (not a failure)
+max_retries: 1
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/prevention-distill.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

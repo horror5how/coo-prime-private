@@ -1,0 +1,47 @@
+{
+  "version": "1.0",
+  "spec_version": "v1.0",
+  "bootstrapped_at": "2026-04-19T00:00:00Z",
+  "owner": "hayat@beyondelevation.com",
+  "environment": {
+    "platform": "linux",
+    "home": "/root",
+    "note": "Spec references macOS paths; runtime is Linux/root. Paths resolve via ~/.claude/."
+  },
+  "last_boot": "2026-04-19T00:00:00Z",
+  "last_audit_hash": null,
+  "routines_registered": [
+    { "id": "qa-morning",              "tier": "A", "schedule": "cron: 30 7 * * *" },
+    { "id": "qa-midday",               "tier": "A", "schedule": "cron: 30 12 * * *" },
+    { "id": "qa-evening",              "tier": "A", "schedule": "cron: 30 17 * * *" },
+    { "id": "memory-consolidate",      "tier": "A", "schedule": "cron: 30 19 * * *" },
+    { "id": "backup-snapshot",         "tier": "A", "schedule": "cron: 45 19 * * *" },
+    { "id": "bootstrap-self-check",    "tier": "A", "schedule": "event: session_start" },
+    { "id": "prevention-distill",      "tier": "A", "schedule": "cron: 0 20 * * 0" },
+    { "id": "audit-chain-verify",      "tier": "A", "schedule": "cron: 0 6 * * 1" },
+    { "id": "secrets-rotation-check",  "tier": "A", "schedule": "cron: 0 6 1 * *" },
+    { "id": "inbox-triage",            "tier": "B", "schedule": "cron: 15 7 * * *" },
+    { "id": "deploy-health",           "tier": "B", "schedule": "cron: 0 12 * * *" },
+    { "id": "github-pr-triage",        "tier": "B", "schedule": "cron: 30 9 * * *" },
+    { "id": "content-hormozi-check",   "tier": "C", "schedule": "event: pre_publish" },
+    { "id": "linkedin-publisher",      "tier": "C", "schedule": "ondemand" },
+    { "id": "supabase-advisor-scan",   "tier": "C", "schedule": "cron: 0 6 * * 3" }
+  ],
+  "routines_queued": [],
+  "routines_running": [],
+  "incidents_open": [],
+  "qa_passes_today": [],
+  "resolved_placeholders": {
+    "secrets_manifest_path": "~/.claude/coo-prime/secrets.manifest.json",
+    "backup_repo_url": "github.com/hayatamin/coo-prime-private",
+    "dr_runbook_path": "~/.claude/coo-prime/DR-RUNBOOK.md",
+    "confidence_threshold": 0.70,
+    "existing_routines_to_migrate": [],
+    "elevated_action_signing_method": "HMAC-SHA256 using key at ~/.claude/coo-prime/.signing-key (0600); signature prepended to audit.log record for elevated actions"
+  },
+  "autonomy_policy": {
+    "directive": "Act first, never present option menus. Interrupt only for logins, elevated-action gates, or irreversible destructive actions without safe default.",
+    "source_memory": "~/.claude/coo-prime/feedback/feedback_act_first.md",
+    "source_rule": "~/.claude/CLAUDE.md"
+  }
+}

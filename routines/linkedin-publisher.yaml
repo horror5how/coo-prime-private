@@ -1,0 +1,35 @@
+id: linkedin-publisher
+tier: C
+owner: COO-Prime
+schedule: "ondemand"
+purpose: "Publish to LinkedIn — gated by content-hormozi-check."
+inputs:
+  - content_body: string
+  - image_path: string (optional)
+  - target: "personal | company"
+steps:
+  - invoke content-hormozi-check; abort if fail
+  - verify LINKEDIN_TOKEN not expired (see secrets.manifest.json)
+  - mcp__Zapier__linkedin_create_share_update (personal) OR linkedin_create_company_update
+  - capture post URL, write to audit.log
+  - schedule content-hormozi-check post-hoc in 24h to confirm no violation caught late
+success_criteria:
+  - check: "post URL returned and reachable"
+  - check: "content_hash logged with pass decision"
+failure_modes:
+  - name: hormozi_reject
+    remediation: return to draft with suggestions; do NOT retry automatically
+  - name: linkedin_token_expired
+    remediation: auto_refresh_token; if no refresh_token available: log and continue, queue OAuth repair at next user session
+  - name: linkedin_api_error
+    remediation: backoff_and_retry 2x, then park
+max_retries: 2
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/linkedin-publisher.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

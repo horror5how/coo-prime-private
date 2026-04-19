@@ -1,0 +1,34 @@
+id: bootstrap-self-check
+tier: A
+owner: COO-Prime
+schedule: "event: session_start"
+purpose: "Cold-start sequence per spec §6.1. Runs on every Claude Code session start."
+inputs: []
+steps:
+  - load ~/.claude/CLAUDE.md + project CLAUDE.md
+  - load MEMORY.md, mount AgentDB bridge
+  - read state.json
+  - diff local + cloud scheduled tasks vs registered routines
+  - run learning loop on last 24h audit.log
+  - requeue missed tasks (§6.2)
+  - run `npx @claude-flow/cli@latest doctor --fix` if available
+  - append boot.log entry
+success_criteria:
+  - check: "boot.log has entry with today's date"
+  - check: "state.json last_boot timestamp updated"
+  - check: "audit chain verifies end-to-end"
+failure_modes:
+  - name: audit_chain_broken
+    remediation: halt dispatch, open P0 incident, require manual reconcile before resuming
+  - name: doctor_tool_missing
+    remediation: continue with degraded health checks, open incident to install
+max_retries: 1
+escalation:
+  after_retries: self_sign_and_continue
+  on_data_loss: halt_and_log
+
+runtime: cloud
+dispatch:
+  primary: "github-actions: .github/workflows/bootstrap-self-check.yml"
+  signing: "self-signed via HMAC; audit entry includes signature"
+  secrets_required_in_repo: [ANTHROPIC_API_KEY, COO_PRIME_SIGNING_KEY]

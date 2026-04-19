@@ -1,0 +1,14 @@
+{
+  "name": "coo-prime-cloud",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Cloud execution harness for COO-Prime routines.",
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "latest",
+    "js-yaml": "^4.1.0"
+  },
+  "scripts": {
+    "dispatch": "node scripts/dispatch-routine.mjs"
+  }
+}
