@@ -8,8 +8,8 @@
     "home": "/root",
     "note": "Spec references macOS paths; runtime is Linux/root. Paths resolve via ~/.claude/."
   },
-  "last_boot": "2026-04-19T23:53:26.962Z",
-  "last_audit_hash": "9feb8e691c9a66cac41fb409827746150f2cee0aa04cf3879e787af89797b8e0",
+  "last_boot": "2026-04-19T23:56:37.190Z",
+  "last_audit_hash": "9dd61d8fb15ed6c18ee1cf341da9e75e1341a372af699545c7c0feb8fd89af52",
   "routines_registered": [
     {
       "id": "qa-morning",
