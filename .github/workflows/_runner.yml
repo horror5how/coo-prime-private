@@ -9,21 +9,6 @@ on:
       tier:
         required: true
         type: string
-    secrets:
-      ANTHROPIC_API_KEY:
-        required: true
-      COO_PRIME_SIGNING_KEY:
-        required: true
-      GH_TOKEN:
-        required: false
-      VERCEL_TOKEN:
-        required: false
-      LINKEDIN_TOKEN:
-        required: false
-      SUPABASE_ACCESS_TOKEN:
-        required: false
-      GMAIL_TOKEN:
-        required: false
 
 jobs:
   run:
@@ -37,14 +22,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
-      - name: Install Claude Agent SDK
-        run: npm i -g @anthropic-ai/claude-agent-sdk
+      - name: Install deps
+        run: npm install --no-audit --no-fund
 
       - name: Dispatch routine
         env:
@@ -57,15 +43,18 @@ jobs:
           GMAIL_TOKEN: ${{ secrets.GMAIL_TOKEN }}
           ROUTINE_ID: ${{ inputs.routine_id }}
           TIER: ${{ inputs.tier }}
-        run: |
-          node scripts/dispatch-routine.mjs "$ROUTINE_ID"
+          GITHUB_REPO: ${{ github.repository }}
+        run: node scripts/dispatch-routine.mjs "$ROUTINE_ID"
 
-      - name: Commit audit + QA artifacts
+      - name: Commit artifacts
+        if: always()
         run: |
           git config user.name "coo-prime-bot"
           git config user.email "coo-prime@users.noreply.github.com"
-          git add audit.log qa/ incidents/ state.json || true
+          git add audit.log qa/ incidents/ state.json assets.yaml 2>/dev/null || true
           if ! git diff --staged --quiet; then
             git commit -m "coo-prime: ${{ inputs.routine_id }} $(date -u +%FT%TZ)"
             git push
+          else
+            echo "no artifact changes to commit"
           fi
