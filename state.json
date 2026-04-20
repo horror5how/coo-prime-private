@@ -108,5 +108,24 @@
     "directive": "Act first, never present option menus. Interrupt only for logins, elevated-action gates, or irreversible destructive actions without safe default.",
     "source_memory": "~/.claude/coo-prime/feedback/feedback_act_first.md",
     "source_rule": "~/.claude/CLAUDE.md"
+  },
+  "scheduler": {
+    "last_run": {
+      "audit-chain-verify": "2026-04-20T06:00:00.000Z",
+      "backup-snapshot": "2026-04-19T19:45:00.000Z",
+      "deploy-health": "2026-04-19T12:00:00.000Z",
+      "github-pr-triage": "2026-04-19T09:30:00.000Z",
+      "inbox-triage": "2026-04-20T07:15:00.000Z",
+      "inventory-sync": "2026-04-14T06:00:00.000Z",
+      "memory-consolidate": "2026-04-19T19:30:00.000Z",
+      "prevention-distill": "2026-04-19T20:00:00.000Z",
+      "qa-evening": "2026-04-19T17:30:00.000Z",
+      "qa-midday": "2026-04-19T12:30:00.000Z",
+      "qa-morning": "2026-04-20T07:30:00.000Z",
+      "supabase-advisor-scan": "2026-04-15T06:00:00.000Z"
+    },
+    "heartbeats": [
+      "2026-04-20T08:07:31.488Z"
+    ]
   }
 }
