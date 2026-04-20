@@ -81,20 +81,42 @@ jobs:
           echo "alt=$ALT"        >> "$GITHUB_OUTPUT"
           echo "visibility=$VIS" >> "$GITHUB_OUTPUT"
 
-      - name: Publish via native LinkedIn API
+      - name: Publish via native LinkedIn API or Zapier webhook
         id: publish
         env:
           LI_TOKEN: ${{ secrets.LI_TOKEN }}
           LI_URN:   ${{ secrets.LI_URN }}
+          ZAPIER_LI_WEBHOOK: ${{ secrets.ZAPIER_LI_WEBHOOK }}
           BODY:     ${{ steps.inp.outputs.body }}
           IMAGE:    ${{ steps.inp.outputs.image }}
           ALT:      ${{ steps.inp.outputs.alt }}
           VIS:      ${{ steps.inp.outputs.visibility }}
         run: |
           set -e
+          # Fallback A — Zapier catch-hook. Zero OAuth setup: Zapier already holds
+          # LinkedIn auth. User only has to create a "Catch Hook -> LinkedIn Share
+          # Update" Zap and paste the webhook URL as ZAPIER_LI_WEBHOOK.
           if [ -z "$LI_TOKEN" ] || [ -z "$LI_URN" ]; then
-            echo "::error::LI_TOKEN and/or LI_URN not configured in coo-prime-private secrets"
-            echo "status=blocked_oauth" >> "$GITHUB_OUTPUT"
+            if [ -n "$ZAPIER_LI_WEBHOOK" ]; then
+              echo "Using Zapier webhook path (no native LI token configured)"
+              BODY_JSON=$(node -e 'console.log(JSON.stringify(process.env.BODY))')
+              IMG_JSON=$(node -e 'console.log(JSON.stringify(process.env.IMAGE||""))')
+              ALT_JSON=$(node -e 'console.log(JSON.stringify(process.env.ALT||""))')
+              VIS_JSON=$(node -e 'console.log(JSON.stringify(process.env.VIS||"PUBLIC"))')
+              payload=$(printf '{"content_body":%s,"image_url":%s,"alt":%s,"visibility":%s}' \
+                "$BODY_JSON" "$IMG_JSON" "$ALT_JSON" "$VIS_JSON")
+              RESP=$(curl -sS -w "\n%{http_code}" -X POST \
+                -H "Content-Type: application/json" \
+                -d "$payload" "$ZAPIER_LI_WEBHOOK")
+              CODE=$(echo "$RESP" | tail -n1)
+              if [ "$CODE" != "200" ] && [ "$CODE" != "204" ]; then
+                echo "::error::Zapier webhook failed: HTTP $CODE"; echo "$RESP" | head -n-1; exit 1
+              fi
+              echo "status=success_zapier" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "::error::No LinkedIn credentials configured. Set ZAPIER_LI_WEBHOOK (fastest) or LI_TOKEN+LI_URN (native API)."
+            echo "status=blocked_credentials" >> "$GITHUB_OUTPUT"
             exit 1
           fi
           if [ -n "$IMAGE" ]; then
