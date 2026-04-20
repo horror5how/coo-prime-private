@@ -1,64 +1,107 @@
-# COO-Prime — Governed Assets Inventory
-# Populated by inventory-sync routine. Source of truth for cross-repo governance.
-# Updated: 2026-04-19 (initial discovery via GitHub API)
-
-version: 1.0
-updated: 2026-04-19
-
+version: 1
+updated: '2026-04-20'
 github:
   owner: horror5how
   repos:
     - name: coo-prime-private
       visibility: private
-      role: "COO-Prime HQ — spec, audit, routines, dispatcher"
+      role: COO-Prime HQ — spec, audit, routines, dispatcher
       governance: self
-      workflows: []  # populated post-push
-
+      workflows:
+        - path: .github/workflows/_runner.yml
+          name: COO-Prime Routine Runner (reusable)
+          state: active
+        - path: .github/workflows/audit-chain-verify.yml
+          name: coo-audit-chain-verify
+          state: active
+        - path: .github/workflows/backup-snapshot.yml
+          name: coo-backup-snapshot
+          state: active
+        - path: .github/workflows/bootstrap-self-check.yml
+          name: coo-bootstrap-self-check
+          state: active
+        - path: .github/workflows/content-hormozi-check.yml
+          name: coo-content-hormozi-check
+          state: active
+        - path: .github/workflows/deploy-health.yml
+          name: coo-deploy-health
+          state: active
+        - path: .github/workflows/github-pr-triage.yml
+          name: coo-github-pr-triage
+          state: active
+        - path: .github/workflows/inbox-triage.yml
+          name: coo-inbox-triage
+          state: active
+        - path: .github/workflows/inventory-sync.yml
+          name: coo-inventory-sync
+          state: active
+        - path: .github/workflows/linkedin-publisher.yml
+          name: coo-linkedin-publisher
+          state: active
+        - path: .github/workflows/memory-consolidate.yml
+          name: coo-memory-consolidate
+          state: active
+        - path: .github/workflows/prevention-distill.yml
+          name: coo-prevention-distill
+          state: active
+        - path: .github/workflows/qa-evening.yml
+          name: coo-qa-evening
+          state: active
+        - path: .github/workflows/qa-midday.yml
+          name: coo-qa-midday
+          state: active
+        - path: .github/workflows/qa-morning.yml
+          name: coo-qa-morning
+          state: active
+        - path: .github/workflows/secrets-rotation-check.yml
+          name: coo-secrets-rotation-check
+          state: active
+        - path: .github/workflows/supabase-advisor-scan.yml
+          name: coo-supabase-advisor-scan
+          state: active
     - name: beyond-elevation
       visibility: public
-      role: "Beyond Elevation website + content pipeline"
+      role: Beyond Elevation website + content pipeline
       governance: managed
-      stack: [HTML, Vercel]
+      stack:
+        - HTML
+        - Vercel
       workflows:
         - path: .github/workflows/auto-merge-scheduled-posts.yml
-          name: "Auto-merge scheduled-task blog posts into main"
-          state: active
-          coo_policy: observe  # do not modify; COO-Prime watches runs
-          failure_incident: open_incident_on_fail
-        - path: .github/workflows/daily-digest.yml
-          name: "Daily AI & GitHub Digest Email"
+          name: Auto-merge scheduled-task blog posts into main
           state: active
           coo_policy: observe
-          note: "Overlaps with COO-Prime's reporting charter. Review for consolidation."
+          failure_incident: open_incident_on_fail
+        - path: .github/workflows/daily-digest.yml
+          name: Daily AI & GitHub Digest Email
+          state: active
+          coo_policy: observe
+          note: Overlaps with COO-Prime's reporting charter. Review for consolidation.
           failure_incident: open_incident_on_fail
         - path: .github/workflows/deploy.yml
-          name: "Deploy to Vercel Production"
+          name: Deploy to Vercel Production
           state: active
-          coo_policy: observe_and_rollback  # deploy-health routine may rollback on P0
+          coo_policy: observe_and_rollback
           failure_incident: open_incident_on_fail
-
     - name: purpose-ai-mvp
       visibility: private
-      role: "Purpose AI MVP — TypeScript product"
+      role: Purpose AI MVP — TypeScript product
       governance: managed
-      stack: [TypeScript]
+      stack:
+        - TypeScript
       workflows:
         - path: .github/workflows/ci.yml
-          name: "CI"
+          name: CI
           state: active
-          coo_policy: observe  # fails are incidents, no auto-remediation
+          coo_policy: observe
           failure_incident: open_incident_on_fail
-
-# External schedulers COO-Prime should reach (populated by inventory-sync on next run)
 external:
-  claude_code_cloud_triggers: []     # /schedule entries on claude.ai/code
-  zapier_zaps: []                    # from Zapier MCP
-  vercel_crons: []                   # per-project
-  supabase_pg_cron: []               # per-project
-  gmail_filters_and_labels: []       # for inbox-triage mapping
-
-# Governance review queue (things COO-Prime flagged for user decision)
+  claude_code_cloud_triggers: []
+  zapier_zaps: []
+  vercel_crons: []
+  supabase_pg_cron: []
+  gmail_filters_and_labels: []
 review_queue:
-  - item: "daily-digest.yml in beyond-elevation overlaps with COO-Prime QA reports"
-    suggestion: "Consolidate under QA-3 evening pass or retire standalone workflow"
+  - item: daily-digest.yml in beyond-elevation overlaps with COO-Prime QA reports
+    suggestion: Consolidate under QA-3 evening pass or retire standalone workflow
     priority: low
