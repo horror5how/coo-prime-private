@@ -1,0 +1,49 @@
+name: coo-scheduler-watchdog
+
+# Independent watchdog. Runs every 15 min on a DIFFERENT cron schedule.
+# If the main scheduler hasn't ticked in >15 min (stored in state.json),
+# it kicks a scheduler run. Two independent cron entries = much lower odds
+# both get dropped by GitHub's scheduler simultaneously.
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check last scheduler tick
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          set -e
+          LAST=$(node -e "
+            const fs=require('fs');
+            const s=JSON.parse(fs.readFileSync('state.json','utf8'));
+            const hb=(s.scheduler&&s.scheduler.heartbeats)||[];
+            console.log(hb.length?hb[hb.length-1]:'');
+          ")
+          NOW=$(date -u +%s)
+          if [ -z "$LAST" ]; then
+            AGE=999999
+          else
+            AGE=$(( NOW - $(date -d "$LAST" +%s) ))
+          fi
+          echo "last_tick=$LAST age_sec=$AGE"
+          if [ "$AGE" -gt 900 ]; then
+            echo "scheduler stale — kicking via workflow_dispatch"
+            curl -sS -X POST \
+              -H "Authorization: token $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/workflows/scheduler.yml/dispatches" \
+              -d '{"ref":"main"}'
+          else
+            echo "scheduler healthy"
+          fi

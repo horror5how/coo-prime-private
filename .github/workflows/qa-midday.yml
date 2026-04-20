@@ -1,7 +1,5 @@
 name: coo-qa-midday
 on:
-  schedule:
-    - cron: "30 12 * * *"
   workflow_dispatch:
 jobs:
   run:

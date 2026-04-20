@@ -1,7 +1,5 @@
 name: coo-qa-evening
 on:
-  schedule:
-    - cron: "30 17 * * *"
   workflow_dispatch:
 jobs:
   run:

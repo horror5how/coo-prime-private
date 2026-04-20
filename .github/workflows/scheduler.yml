@@ -1,0 +1,59 @@
+name: coo-scheduler
+
+# Unified tick: runs every 5 min. Redundant triggers (cron + repository_dispatch + workflow_dispatch)
+# insulate COO-Prime from GitHub's unreliable native cron scheduler.
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  repository_dispatch:
+    types: [heartbeat, coo-tick]
+  workflow_dispatch:
+
+concurrency:
+  group: coo-scheduler
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: npm install --no-audit --no-fund --no-package-lock js-yaml
+
+      - name: Run scheduler tick
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          COO_PRIME_SIGNING_KEY: ${{ secrets.COO_PRIME_SIGNING_KEY }}
+          GITHUB_REPO: ${{ github.repository }}
+        run: node scripts/scheduler.mjs
+
+      - name: Commit state/audit
+        run: |
+          git config user.name "coo-prime-bot"
+          git config user.email "coo-prime@users.noreply.github.com"
+          git add state.json audit.log 2>/dev/null || true
+          if git diff --staged --quiet; then
+            echo "no changes"
+            exit 0
+          fi
+          git commit -m "coo-prime: scheduler tick $(date -u +%FT%TZ)"
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:main 2>&1; then exit 0; fi
+            git fetch origin main
+            git reset --hard origin/main
+            # don't bother replaying scheduler heartbeats on conflict — next tick covers it
+            exit 0
+          done

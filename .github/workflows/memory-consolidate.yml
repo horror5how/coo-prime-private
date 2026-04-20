@@ -1,7 +1,5 @@
 name: coo-memory-consolidate
 on:
-  schedule:
-    - cron: "30 19 * * *"
   workflow_dispatch:
 jobs:
   run:
