@@ -1,0 +1,54 @@
+name: coo-cross-repo-watchdog
+
+# Monitors cross-repo scheduled workflows (currently beyond-elevation:daily-digest)
+# and kicks them via workflow_dispatch if today's cron slot has passed
+# without a successful run. Defends against GitHub's flaky native cron scheduler
+# for workflows COO-Prime does not own directly.
+
+on:
+  schedule:
+    - cron: "12,42 8-11 * * *"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Digest watchdog
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          set -e
+          TODAY=$(date -u +%F)
+          # daily-digest cron: "0 8 * * *". Only act after 08:05 UTC.
+          HOUR=$(date -u +%H); MIN=$(date -u +%M)
+          if [ "$HOUR" -lt 8 ] || { [ "$HOUR" = "08" ] && [ "$MIN" -lt 05 ]; }; then
+            echo "before 08:05 UTC — not yet due"; exit 0
+          fi
+          # Look for a successful digest run today
+          RAN=$(curl -sS -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/horror5how/beyond-elevation/actions/runs?per_page=20" \
+            | node -e "
+              let s=''; process.stdin.on('data',c=>s+=c).on('end',()=>{
+                const d=JSON.parse(s);
+                const today=new Date().toISOString().slice(0,10);
+                const hit=(d.workflow_runs||[]).some(r =>
+                  r.name==='Daily AI & GitHub Digest Email' &&
+                  r.created_at.startsWith(today) &&
+                  r.conclusion==='success'
+                );
+                console.log(hit?'yes':'no');
+              });
+            ")
+          echo "digest_ran_today=$RAN"
+          if [ "$RAN" = "yes" ]; then
+            echo "digest already ran successfully today — nothing to do"
+            exit 0
+          fi
+          echo "digest missed — firing workflow_dispatch"
+          curl -sS -o /dev/null -w "dispatch: HTTP %{http_code}\n" -X POST \
+            -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/horror5how/beyond-elevation/actions/workflows/daily-digest.yml/dispatches" \
+            -d '{"ref":"main"}'
