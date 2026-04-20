@@ -10,10 +10,6 @@ on:
         required: true
         type: string
 
-concurrency:
-  group: coo-prime-dispatch
-  cancel-in-progress: false
-
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -58,9 +54,20 @@ jobs:
 
       - name: Commit artifacts
         if: always()
+        env:
+          COO_PRIME_SIGNING_KEY: ${{ secrets.COO_PRIME_SIGNING_KEY }}
         run: |
           git config user.name "coo-prime-bot"
           git config user.email "coo-prime@users.noreply.github.com"
+          # Stash our new audit record for possible replay after rebase
+          if [ -f audit.log ]; then tail -n 1 audit.log > /tmp/new_audit_line.txt; fi
+          # Stash other artifacts
+          mkdir -p /tmp/artifacts
+          [ -d qa ] && cp -r qa /tmp/artifacts/ 2>/dev/null || true
+          [ -d incidents ] && cp -r incidents /tmp/artifacts/ 2>/dev/null || true
+          [ -f state.json ] && cp state.json /tmp/artifacts/ 2>/dev/null || true
+          [ -f assets.yaml ] && cp assets.yaml /tmp/artifacts/ 2>/dev/null || true
+
           for f in audit.log state.json assets.yaml; do
             [ -f "$f" ] && git add "$f" || true
           done
@@ -71,15 +78,36 @@ jobs:
             exit 0
           fi
           git commit -m "coo-prime: ${{ inputs.routine_id }} $(date -u +%FT%TZ)"
-          # Retry loop for concurrent push conflicts
           for attempt in 1 2 3 4 5 6; do
             if git push origin HEAD:main 2>&1; then
               echo "push succeeded on attempt $attempt"
               exit 0
             fi
-            echo "push attempt $attempt failed; rebasing on origin/main..."
+            echo "push attempt $attempt failed; re-syncing with origin..."
             git fetch origin main
-            git rebase origin/main || { git rebase --abort; echo "rebase failed"; exit 1; }
+            git reset --hard origin/main
+            # Replay: restore other artifacts first
+            [ -d /tmp/artifacts/qa ] && cp -rn /tmp/artifacts/qa/* qa/ 2>/dev/null || true
+            [ -d /tmp/artifacts/incidents ] && cp -rn /tmp/artifacts/incidents/* incidents/ 2>/dev/null || true
+            [ -f /tmp/artifacts/state.json ] && cp /tmp/artifacts/state.json . || true
+            [ -f /tmp/artifacts/assets.yaml ] && cp /tmp/artifacts/assets.yaml . || true
+            # Replay audit line with fresh prev_hash
+            if [ -f /tmp/new_audit_line.txt ]; then
+              node -e "
+                const fs=require('fs'), c=require('crypto');
+                const key=process.env.COO_PRIME_SIGNING_KEY;
+                const lines = fs.existsSync('audit.log') ? fs.readFileSync('audit.log','utf8').trim().split('\n').filter(Boolean) : [];
+                const prev = lines.length ? c.createHash('sha256').update(lines[lines.length-1]).digest('hex') : '0'.repeat(64);
+                const rec = JSON.parse(fs.readFileSync('/tmp/new_audit_line.txt','utf8').trim());
+                delete rec.signature; rec.prev_hash = 'sha256:'+prev;
+                rec.signature = 'hmac-sha256:'+c.createHmac('sha256',key).update(JSON.stringify(rec)).digest('hex');
+                fs.appendFileSync('audit.log', JSON.stringify(rec)+'\n');
+              "
+            fi
+            git add audit.log state.json assets.yaml qa/ incidents/ 2>/dev/null || true
+            if ! git diff --staged --quiet; then
+              git commit -m "coo-prime: ${{ inputs.routine_id }} retry $attempt $(date -u +%FT%TZ)"
+            fi
             sleep $((RANDOM % 4 + 1))
           done
           echo "push failed after 6 attempts"
