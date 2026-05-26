@@ -198,6 +198,17 @@ for (const repo of repos) {
   }
 }
 
+// blindness guard: we KNOW the fleet has scheduled routines. 0 means the token
+// can't see the fleet — never report a false all-clear.
+if (!monitored.length) {
+  const msg = `⛔ **COO is BLIND** at ${now.toISOString()} — enumerated ${repos.length} repos but 0 scheduled routines. The GH_TOKEN secret almost certainly lacks scope (needs a classic PAT with \`repo\` + \`workflow\`). Fleet monitoring is non-functional until this is fixed.`;
+  console.error(msg);
+  appendAudit({ result: 'self_fault', monitored: 0, unhealthy: 0, escalated: 0, repos: repos.length, notes: 'token/scope failure: 0 routines enumerated' });
+  saveState(state);
+  if (!DRY) { await upsertIssue('🩺 COO Fleet Health', msg, '⛔ COO is blind: GH_TOKEN scope problem.'); await slack('⛔ COO fleet-health is BLIND — GH_TOKEN lacks scope. Fix the secret.'); }
+  process.exit(1);
+}
+
 // act
 const key = m => `${m.full}::${m.wf.path}`;
 const broken = monitored.filter(m => !m.cls.healthy);
