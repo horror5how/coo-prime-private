@@ -22,6 +22,10 @@ if (!TOKEN) { console.error('FATAL: GH_TOKEN missing'); process.exit(1); }
 const STATE_PATH = 'fleet-state.json';
 const AUDIT_PATH = 'audit.log';
 const REPORT_PATH = 'qa/fleet-health-latest.md';
+// routines Hayat deliberately retired — the COO must NOT flag or revive these
+const IGNORE = (() => { try { return JSON.parse(fs.readFileSync('fleet-ignore.json', 'utf8')); } catch { return { repos: [], routines: [] }; } })();
+const ignoredRepo = name => (IGNORE.repos || []).includes(name);
+const ignoredRoutine = (full, path) => (IGNORE.routines || []).includes(`${full}::${path}`);
 const now = new Date();
 const NOW = now.getTime();
 
@@ -159,6 +163,7 @@ const monitored = [];
 
 for (const repo of repos) {
   const full = repo.full_name;
+  if (ignoredRepo(repo.name)) continue;                    // deliberately retired by Hayat
   // skip repos where Actions are intentionally disabled at the repo level (retired routines)
   try { const perm = await ghJson(`/repos/${full}/actions/permissions`); if (perm && perm.enabled === false) continue; } catch {}
   let wfs = [];
@@ -169,6 +174,7 @@ for (const repo of repos) {
     const text = await ghRaw(`/repos/${full}/contents/${wf.path}`);
     if (!text || !isScheduled(text)) continue;            // only scheduled routines
     if (full === SELF && /fleet-health/.test(wf.path)) continue; // never self-heal the monitor
+    if (ignoredRoutine(full, wf.path)) continue;          // deliberately retired
 
     let runs = [];
     try { runs = (await ghJson(`/repos/${full}/actions/workflows/${wf.id}/runs?per_page=10`)).workflow_runs || []; } catch {}
@@ -188,6 +194,7 @@ for (const repo of repos) {
   for (const run of recent) {
     if (run.event !== 'schedule' || activePaths.has(run.path) || seenOrphan.has(run.path)) continue;
     seenOrphan.add(run.path);
+    if (ignoredRoutine(full, run.path)) continue;          // deliberately retired
     const ageH = (NOW - new Date(run.created_at).getTime()) / 3.6e6;
     if (ageH > 24 * 21) continue;                          // ignore orphans older than 3 weeks
     monitored.push({

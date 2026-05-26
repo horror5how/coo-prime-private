@@ -1,0 +1,9 @@
+{
+  "_comment": "Routines Hayat deliberately retired. The COO will NOT monitor, flag, heal, or revive these. Remove an entry here to bring a routine back under COO management.",
+  "repos": [
+    "qwoted-bot",
+    "reddit-karma-warmup",
+    "patent-intel-platform"
+  ],
+  "routines": []
+}
