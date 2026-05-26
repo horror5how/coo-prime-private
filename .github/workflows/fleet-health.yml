@@ -1,0 +1,44 @@
+name: coo-fleet-health
+# COO-Prime FLEET HEALTH — monitor + auto-heal EVERY scheduled routine across the fleet.
+# Hourly. Detects failing / stalled / auto-disabled / deleted-workflow routines,
+# auto-heals what it can (re-run failed jobs, re-enable inactivity-disabled crons,
+# workflow_dispatch), escalates the rest to a living GitHub issue + Slack.
+on:
+  schedule:
+    - cron: "5 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: coo-fleet-health
+  cancel-in-progress: false
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run fleet health
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          COO_PRIME_SIGNING_KEY: ${{ secrets.COO_PRIME_SIGNING_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          FLEET_OWNER: horror5how
+        run: node scripts/fleet-health.mjs
+      - name: Commit state + report
+        if: always()
+        run: |
+          git config user.email "hayat@beyondelevation.com"
+          git config user.name "coo-prime-bot"
+          git add fleet-state.json audit.log qa/fleet-health-latest.md 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "coo-fleet-health: $(date -u +%FT%TZ)"
+            git pull --rebase --autostash --no-edit 2>/dev/null || true
+            git push 2>/dev/null || (sleep 3 && git pull --rebase --autostash --no-edit && git push) || true
+          fi
