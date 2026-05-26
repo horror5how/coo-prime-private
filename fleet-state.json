@@ -3,58 +3,60 @@
     "horror5how/beyond-elevation::.github/workflows/daily-digest.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "last_seen": "2026-05-26T18:05:51.133Z"
     },
     "horror5how/beyond-elevation::.github/workflows/linkedin-carousel-pipeline.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "last_seen": "2026-05-26T18:05:51.133Z"
     },
     "horror5how/beyond-elevation::.github/workflows/linkedin-carousel-scheduled.yml": {
-      "attempts": 2,
+      "attempts": 3,
       "last_status": "FAILING",
-      "last_seen": "2026-05-26T15:54:08.102Z",
+      "last_seen": "2026-05-26T18:05:51.133Z",
       "last_action": "healing via rerun-failed-jobs"
     },
     "horror5how/beyond-elevation::.github/workflows/linkedin-content-pipeline.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "last_seen": "2026-05-26T18:05:51.133Z"
     },
     "horror5how/beyond-elevation::.github/workflows/linkedin-engage.yml": {
-      "attempts": 0,
-      "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "attempts": 1,
+      "last_status": "FAILING",
+      "last_seen": "2026-05-26T18:05:51.133Z",
+      "last_action": "healing via rerun-failed-jobs"
     },
     "horror5how/beyond-elevation::.github/workflows/linkedin-scheduled.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "last_seen": "2026-05-26T18:05:51.133Z"
     },
     "horror5how/coo-prime-private::.github/workflows/cross-repo-watchdog.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "last_seen": "2026-05-26T18:05:51.133Z"
     },
     "horror5how/coo-prime-private::.github/workflows/scheduler-watchdog.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "last_seen": "2026-05-26T18:05:51.133Z"
     },
     "horror5how/coo-prime-private::.github/workflows/scheduler.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "last_seen": "2026-05-26T18:05:51.133Z"
     },
     "horror5how/instagram-autopilot::.github/workflows/autopilot-hourly.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "last_seen": "2026-05-26T18:05:51.133Z"
     },
     "horror5how/patent-ceo-cron::.github/workflows/daily.yml": {
-      "attempts": 0,
-      "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "attempts": 3,
+      "last_status": "WORKFLOW_MISSING",
+      "last_seen": "2026-05-26T18:05:51.133Z",
+      "last_action": "workflow file deleted — restore required (cannot auto-dispatch)"
     },
     "horror5how/patent-intel-platform::.github/workflows/daily-leadgen.yml": {
       "attempts": 3,
@@ -77,7 +79,12 @@
     "horror5how/top11::.github/workflows/pulse-refresh.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-26T15:54:08.102Z"
+      "last_seen": "2026-05-26T18:05:51.133Z"
+    },
+    "horror5how/patent-ceo-cron::.github/workflows/weekly.yml": {
+      "attempts": 0,
+      "last_status": "HEALTHY",
+      "last_seen": "2026-05-26T18:05:51.133Z"
     }
   }
 }
