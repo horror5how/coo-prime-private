@@ -3,24 +3,24 @@
     "horror5how/beyond-elevation::.github/workflows/daily-digest.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-29T12:24:58.331Z"
+      "last_seen": "2026-05-29T14:58:23.578Z"
     },
     "horror5how/beyond-elevation::.github/workflows/linkedin-carousel-pipeline.yml": {
       "attempts": 3,
       "last_status": "FAILING",
-      "last_seen": "2026-05-29T12:24:58.331Z",
+      "last_seen": "2026-05-29T14:58:23.578Z",
       "last_action": "ESCALATED (3 heals failed)"
     },
     "horror5how/beyond-elevation::.github/workflows/linkedin-carousel-scheduled.yml": {
       "attempts": 3,
       "last_status": "FAILING",
-      "last_seen": "2026-05-29T12:24:58.331Z",
+      "last_seen": "2026-05-29T14:58:23.578Z",
       "last_action": "ESCALATED (3 heals failed)"
     },
     "horror5how/beyond-elevation::.github/workflows/linkedin-content-pipeline.yml": {
       "attempts": 3,
       "last_status": "FAILING",
-      "last_seen": "2026-05-29T12:24:58.331Z",
+      "last_seen": "2026-05-29T14:58:23.578Z",
       "last_action": "ESCALATED (3 heals failed)"
     },
     "horror5how/beyond-elevation::.github/workflows/linkedin-engage.yml": {
@@ -32,33 +32,33 @@
     "horror5how/beyond-elevation::.github/workflows/linkedin-scheduled.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-29T12:24:58.331Z"
+      "last_seen": "2026-05-29T14:58:23.578Z"
     },
     "horror5how/coo-prime-private::.github/workflows/cross-repo-watchdog.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-29T12:24:58.331Z"
+      "last_seen": "2026-05-29T14:58:23.578Z"
     },
     "horror5how/coo-prime-private::.github/workflows/scheduler-watchdog.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-29T12:24:58.331Z"
+      "last_seen": "2026-05-29T14:58:23.578Z"
     },
     "horror5how/coo-prime-private::.github/workflows/scheduler.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-29T12:24:58.331Z"
+      "last_seen": "2026-05-29T14:58:23.578Z"
     },
     "horror5how/instagram-autopilot::.github/workflows/autopilot-hourly.yml": {
       "attempts": 3,
       "last_status": "FAILING",
-      "last_seen": "2026-05-29T12:24:58.331Z",
+      "last_seen": "2026-05-29T14:58:23.578Z",
       "last_action": "ESCALATED (3 heals failed)"
     },
     "horror5how/patent-ceo-cron::.github/workflows/daily.yml": {
       "attempts": 3,
       "last_status": "WORKFLOW_MISSING",
-      "last_seen": "2026-05-29T12:24:58.331Z",
+      "last_seen": "2026-05-29T14:58:23.578Z",
       "last_action": "workflow file deleted — restore required (cannot auto-dispatch)"
     },
     "horror5how/patent-intel-platform::.github/workflows/daily-leadgen.yml": {
@@ -82,18 +82,18 @@
     "horror5how/top11::.github/workflows/pulse-refresh.yml": {
       "attempts": 0,
       "last_status": "HEALTHY",
-      "last_seen": "2026-05-29T12:24:58.331Z"
+      "last_seen": "2026-05-29T14:58:23.578Z"
     },
     "horror5how/patent-ceo-cron::.github/workflows/weekly.yml": {
-      "attempts": 2,
+      "attempts": 3,
       "last_status": "STALLED",
-      "last_seen": "2026-05-29T12:24:58.331Z",
+      "last_seen": "2026-05-29T14:58:23.578Z",
       "last_action": "heal failed (422 {\"message\":\"Cannot trigger a 'workflow_dispatch' on a disabled workflow\",\"documentation_url\":\"https://docs.github.com/rest/actions/workflows#create-a-workflow-d)"
     },
     "horror5how/beyond-elevation::.github/workflows/daily-review-digest 2.yml": {
       "attempts": 3,
       "last_status": "FAILING",
-      "last_seen": "2026-05-29T12:24:58.331Z",
+      "last_seen": "2026-05-29T14:58:23.578Z",
       "last_action": "ESCALATED (3 heals failed)"
     }
   }

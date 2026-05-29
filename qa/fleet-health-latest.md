@@ -1,22 +1,22 @@
-🩺 **COO Fleet Health** — last check 2026-05-29T12:24:58.331Z
+🩺 **COO Fleet Health** — last check 2026-05-29T14:58:23.578Z
 
 **13** scheduled routines · **6** healthy · **7** unhealthy · **6** escalated
 
 | repo | routine | status | last run | action |
 |---|---|---|---|---|
-| beyond-elevation | Daily Blog Draft Review Digest | ❌ FAILING | 19.6h ago | ESCALATED (3 heals failed) |
-| beyond-elevation | LinkedIn Carousel Pipeline (Daily Queue) | ❌ FAILING | 5.5h ago | ESCALATED (3 heals failed) |
-| beyond-elevation | LinkedIn Carousel Posts (5× Daily) | ❌ FAILING | 28.0d ago | ESCALATED (3 heals failed) |
-| beyond-elevation | LinkedIn Content Pipeline (Daily Queue) | ❌ FAILING | 4.7h ago | ESCALATED (3 heals failed) |
-| instagram-autopilot | autopilot-hourly | ❌ FAILING | 2.2h ago | ESCALATED (3 heals failed) |
-| patent-ceo-cron | Weekly Patent-CEO Sheet | 🕒 STALLED | 32.0h ago | heal failed (422 {"message":"Cannot trigger a 'workflow_dispatch' on a disabled workflow","documentation_url":"https://docs.github.com/rest/actions/workflows#create-a-workflow-d) |
-| patent-ceo-cron | Patent CEO Daily Pusher | 🗑️ WORKFLOW_MISSING | 4.0d ago | workflow file deleted — restore required (cannot auto-dispatch) |
-| beyond-elevation | Daily AI & GitHub Digest Email | ✅ HEALTHY | 1.8h ago | — |
-| beyond-elevation | LinkedIn Scheduled Posts (5× Daily) | ✅ HEALTHY | 0.1h ago | — |
-| coo-prime-private | coo-cross-repo-watchdog | ✅ HEALTHY | 0.8h ago | — |
-| coo-prime-private | coo-scheduler-watchdog | ✅ HEALTHY | 0.6h ago | — |
-| coo-prime-private | coo-scheduler | ✅ HEALTHY | 0.7h ago | — |
-| top11 | Review Pulse — nightly refresh | ✅ HEALTHY | 5.3h ago | — |
+| beyond-elevation | Daily Blog Draft Review Digest | ❌ FAILING | 22.1h ago | ESCALATED (3 heals failed) |
+| beyond-elevation | LinkedIn Carousel Pipeline (Daily Queue) | ❌ FAILING | 8.1h ago | ESCALATED (3 heals failed) |
+| beyond-elevation | LinkedIn Carousel Posts (5× Daily) | ❌ FAILING | 28.1d ago | ESCALATED (3 heals failed) |
+| beyond-elevation | LinkedIn Content Pipeline (Daily Queue) | ❌ FAILING | 7.2h ago | ESCALATED (3 heals failed) |
+| instagram-autopilot | autopilot-hourly | ❌ FAILING | 4.8h ago | ESCALATED (3 heals failed) |
+| patent-ceo-cron | Weekly Patent-CEO Sheet | 🕒 STALLED | 34.6h ago | heal failed (422 {"message":"Cannot trigger a 'workflow_dispatch' on a disabled workflow","documentation_url":"https://docs.github.com/rest/actions/workflows#create-a-workflow-d) |
+| patent-ceo-cron | Patent CEO Daily Pusher | 🗑️ WORKFLOW_MISSING | 4.1d ago | workflow file deleted — restore required (cannot auto-dispatch) |
+| beyond-elevation | Daily AI & GitHub Digest Email | ✅ HEALTHY | 4.4h ago | — |
+| beyond-elevation | LinkedIn Scheduled Posts (5× Daily) | ✅ HEALTHY | 1.0h ago | — |
+| coo-prime-private | coo-cross-repo-watchdog | ✅ HEALTHY | 0.6h ago | — |
+| coo-prime-private | coo-scheduler-watchdog | ✅ HEALTHY | 0.5h ago | — |
+| coo-prime-private | coo-scheduler | ✅ HEALTHY | 0.5h ago | — |
+| top11 | Review Pulse — nightly refresh | ✅ HEALTHY | 7.8h ago | — |
 
 ### Needs a human / root-cause fix
 - **horror5how/beyond-elevation** → Daily Blog Draft Review Digest: FAILING after 3 auto-heals. job "digest" step "Send daily draft digest". https://github.com/horror5how/beyond-elevation/actions/runs/26589012591
