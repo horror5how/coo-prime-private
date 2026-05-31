@@ -1,22 +1,22 @@
-🩺 **COO Fleet Health** — last check 2026-05-31T14:01:16.366Z
+🩺 **COO Fleet Health** — last check 2026-05-31T14:05:15.194Z
 
-**15** scheduled routines · **8** healthy · **7** unhealthy · **5** escalated
+**15** scheduled routines · **9** healthy · **6** unhealthy · **5** escalated
 
 | repo | routine | status | last run | action |
 |---|---|---|---|---|
-| beyond-elevation | Daily Blog Draft Review Digest | ❌ FAILING | 23.6h ago | ESCALATED (3 heals failed) |
-| beyond-elevation | LinkedIn Carousel Pipeline (Daily Queue) | ❌ FAILING | 7.1h ago | ESCALATED (3 heals failed) |
+| beyond-elevation | Daily Blog Draft Review Digest | ❌ FAILING | 23.7h ago | ESCALATED (3 heals failed) |
+| beyond-elevation | LinkedIn Carousel Pipeline (Daily Queue) | ❌ FAILING | 7.2h ago | ESCALATED (3 heals failed) |
 | beyond-elevation | LinkedIn Carousel Posts (5× Daily) | ❌ FAILING | 30.1d ago | ESCALATED (3 heals failed) |
-| instagram-autopilot | autopilot-hourly | ❌ FAILING | 4.7h ago | healing via rerun-failed-jobs |
 | patent-ceo-cron | Weekly Patent-CEO Sheet | 🕒 STALLED | 3.4d ago | ESCALATED (3 heals failed) |
 | patent-ceo-cron | Patent CEO Daily Pusher | 🗑️ WORKFLOW_MISSING | 6.1d ago | workflow file deleted — restore required (cannot auto-dispatch) |
-| top11 | .github/workflows/list-factory.yml | ❌ FAILING | 3.8h ago | heal failed (422 {"message":"Invalid Argument - failed to parse workflow: (Line: 28, Col: 9): Unrecognized named-value: 'env'. Located at position 1 within expression: env.GEMIN) |
+| top11 | .github/workflows/list-factory.yml | ❌ FAILING | 3.9h ago | heal failed (422 {"message":"Invalid Argument - failed to parse workflow: (Line: 28, Col: 9): Unrecognized named-value: 'env'. Located at position 1 within expression: env.GEMIN) |
 | beyond-elevation | Daily AI & GitHub Digest Email | ✅ HEALTHY | 4.4h ago | — |
-| beyond-elevation | LinkedIn Content Pipeline (Daily Queue) | ✅ HEALTHY | 6.4h ago | — |
+| beyond-elevation | LinkedIn Content Pipeline (Daily Queue) | ✅ HEALTHY | 6.5h ago | — |
 | beyond-elevation | LinkedIn Scheduled Posts (5× Daily) | ✅ HEALTHY | 1.9h ago | — |
 | coo-prime-private | coo-cross-repo-watchdog | ✅ HEALTHY | 2.0h ago | — |
-| coo-prime-private | coo-scheduler-watchdog | ✅ HEALTHY | 2.0h ago | — |
-| coo-prime-private | coo-scheduler | ✅ HEALTHY | 1.2h ago | — |
+| coo-prime-private | coo-scheduler-watchdog | ✅ HEALTHY | 0.0h ago | — |
+| coo-prime-private | coo-scheduler | ✅ HEALTHY | 0.0h ago | — |
+| instagram-autopilot | autopilot-hourly | 🔄 RUNNING | 0.0h ago | — |
 | top11 | Review Pulse — nightly refresh | ✅ HEALTHY | 6.9h ago | — |
 | top11 | Weekly index audit | ✅ HEALTHY | 2.3h ago | — |
 
