@@ -1,23 +1,23 @@
-🩺 **COO Fleet Health** — last check 2026-06-08T21:57:52.359Z
+🩺 **COO Fleet Health** — last check 2026-06-08T23:19:00.511Z
 
 **14** scheduled routines · **7** healthy · **7** unhealthy · **7** escalated
 
 | repo | routine | status | last run | action |
 |---|---|---|---|---|
-| beyond-elevation | LinkedIn Scheduled Posts (5× Daily) | ❌ FAILING | 2.7h ago | ESCALATED (3 heals failed) |
-| beyond-elevation | LinkedIn Content Pipeline (Daily Queue) | ❌ FAILING | 13.3h ago | ESCALATED (3 heals failed) |
-| beyond-elevation | Daily Blog Draft Review Digest | 🕒 STALLED | 2.3d ago | ESCALATED (3 heals failed) |
-| instagram-autopilot | autopilot-hourly | ❌ FAILING | 2.3d ago | ESCALATED (3 heals failed) |
-| patent-ceo-cron | Weekly Patent-CEO Sheet | 🕒 STALLED | 11.7d ago | ESCALATED (3 heals failed) |
-| patent-ceo-cron | Patent CEO Daily Pusher | 🗑️ WORKFLOW_MISSING | 14.4d ago | workflow file deleted — restore required (cannot auto-dispatch) |
-| top11 | Review Pulse — nightly refresh | ❌ FAILING | 13.5h ago | ESCALATED (3 heals failed) |
-| beyond-elevation | Daily AI & GitHub Digest Email | ✅ HEALTHY | 10.2h ago | — |
-| coo-prime-private | coo-cross-repo-watchdog | ✅ HEALTHY | 9.3h ago | — |
-| coo-prime-private | coo-scheduler-watchdog | ✅ HEALTHY | 0.9h ago | — |
-| coo-prime-private | coo-scheduler | ✅ HEALTHY | 0.7h ago | — |
-| top11 | CEO daily — Top Eleven growth loop | ✅ HEALTHY | 9.5h ago | — |
-| top11 | List factory (autonomous) | ✅ HEALTHY | 3.3h ago | — |
-| top11 | Weekly index audit | ✅ HEALTHY | 9.0h ago | — |
+| beyond-elevation | LinkedIn Scheduled Posts (5× Daily) | ❌ FAILING | 4.1h ago | ESCALATED (3 heals failed) |
+| beyond-elevation | LinkedIn Content Pipeline (Daily Queue) | ❌ FAILING | 14.6h ago | ESCALATED (3 heals failed) |
+| beyond-elevation | Daily Blog Draft Review Digest | 🕒 STALLED | 2.4d ago | ESCALATED (3 heals failed) |
+| instagram-autopilot | autopilot-hourly | ❌ FAILING | 2.4d ago | ESCALATED (3 heals failed) |
+| patent-ceo-cron | Weekly Patent-CEO Sheet | 🕒 STALLED | 11.8d ago | ESCALATED (3 heals failed) |
+| patent-ceo-cron | Patent CEO Daily Pusher | 🗑️ WORKFLOW_MISSING | 14.5d ago | workflow file deleted — restore required (cannot auto-dispatch) |
+| top11 | Review Pulse — nightly refresh | ❌ FAILING | 14.9h ago | ESCALATED (3 heals failed) |
+| beyond-elevation | Daily AI & GitHub Digest Email | ✅ HEALTHY | 11.5h ago | — |
+| coo-prime-private | coo-cross-repo-watchdog | ✅ HEALTHY | 10.6h ago | — |
+| coo-prime-private | coo-scheduler-watchdog | ✅ HEALTHY | 0.6h ago | — |
+| coo-prime-private | coo-scheduler | ✅ HEALTHY | 0.4h ago | — |
+| top11 | CEO daily — Top Eleven growth loop | ✅ HEALTHY | 10.9h ago | — |
+| top11 | List factory (autonomous) | ✅ HEALTHY | 1.3h ago | — |
+| top11 | Weekly index audit | ✅ HEALTHY | 10.3h ago | — |
 
 ### Needs a human / root-cause fix
 - **horror5how/beyond-elevation** → LinkedIn Scheduled Posts (5× Daily): FAILING after 3 auto-heals. job "post" step "Publish next pending post from queue". https://github.com/horror5how/beyond-elevation/actions/runs/27160897222
