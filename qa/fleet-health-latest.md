@@ -1,25 +1,25 @@
-🩺 **COO Fleet Health** — last check 2026-06-09T23:24:05.085Z
+🩺 **COO Fleet Health** — last check 2026-06-10T02:22:54.092Z
 
-**16** scheduled routines · **7** healthy · **9** unhealthy · **7** escalated
+**16** scheduled routines · **8** healthy · **8** unhealthy · **7** escalated
 
 | repo | routine | status | last run | action |
 |---|---|---|---|---|
-| beyond-elevation | LinkedIn Scheduled Posts (5× Daily) | ❌ FAILING | 4.3h ago | ESCALATED (3 heals failed) |
-| beyond-elevation | LinkedIn Content Pipeline (Daily Queue) | ❌ FAILING | 15.8h ago | ESCALATED (3 heals failed) |
-| beyond-elevation | Daily Blog Draft Review Digest | 🕒 STALLED | 3.4d ago | ESCALATED (3 heals failed) |
-| getinpositions | Blog Content Engine | ❌ FAILING | 0.9h ago | healing via rerun-failed-jobs |
-| instagram-autopilot | autopilot-hourly | ❌ FAILING | 3.4d ago | ESCALATED (3 heals failed) |
-| patent-ceo-cron | Weekly Patent-CEO Sheet | 🕒 STALLED | 12.8d ago | ESCALATED (3 heals failed) |
-| patent-ceo-cron | Patent CEO Daily Pusher | 🗑️ WORKFLOW_MISSING | 15.5d ago | workflow file deleted — restore required (cannot auto-dispatch) |
-| top11 | Review Pulse — nightly refresh | ❌ FAILING | 1.4h ago | ESCALATED (3 heals failed) |
-| top11 | Syndicate to Dev.to | ⚪ NO_RUNS | — ago | healing via workflow_dispatch |
-| beyond-elevation | Daily AI & GitHub Digest Email | ✅ HEALTHY | 13.0h ago | — |
-| coo-prime-private | coo-cross-repo-watchdog | ✅ HEALTHY | 9.4h ago | — |
-| coo-prime-private | coo-scheduler-watchdog | ✅ HEALTHY | 0.4h ago | — |
-| coo-prime-private | coo-scheduler | ✅ HEALTHY | 0.4h ago | — |
-| top11 | CEO daily — Top Eleven growth loop | ✅ HEALTHY | 12.5h ago | — |
-| top11 | List factory (autonomous) | ✅ HEALTHY | 1.4h ago | — |
-| top11 | Weekly index audit | ✅ HEALTHY | 4.0h ago | — |
+| beyond-elevation | LinkedIn Scheduled Posts (5× Daily) | ❌ FAILING | 7.3h ago | ESCALATED (3 heals failed) |
+| beyond-elevation | LinkedIn Content Pipeline (Daily Queue) | ❌ FAILING | 18.8h ago | ESCALATED (3 heals failed) |
+| beyond-elevation | Daily Blog Draft Review Digest | 🕒 STALLED | 3.5d ago | ESCALATED (3 heals failed) |
+| getinpositions | Blog Content Engine | ❌ FAILING | 3.9h ago | healing via rerun-failed-jobs |
+| instagram-autopilot | autopilot-hourly | ❌ FAILING | 3.5d ago | ESCALATED (3 heals failed) |
+| patent-ceo-cron | Weekly Patent-CEO Sheet | 🕒 STALLED | 12.9d ago | ESCALATED (3 heals failed) |
+| patent-ceo-cron | Patent CEO Daily Pusher | 🗑️ WORKFLOW_MISSING | 15.6d ago | workflow file deleted — restore required (cannot auto-dispatch) |
+| top11 | Review Pulse — nightly refresh | ❌ FAILING | 4.3h ago | ESCALATED (3 heals failed) |
+| beyond-elevation | Daily AI & GitHub Digest Email | ✅ HEALTHY | 16.0h ago | — |
+| coo-prime-private | coo-cross-repo-watchdog | ✅ HEALTHY | 12.3h ago | — |
+| coo-prime-private | coo-scheduler-watchdog | ✅ HEALTHY | 2.0h ago | — |
+| coo-prime-private | coo-scheduler | ✅ HEALTHY | 0.5h ago | — |
+| top11 | CEO daily — Top Eleven growth loop | ✅ HEALTHY | 15.4h ago | — |
+| top11 | List factory (autonomous) | ✅ HEALTHY | 4.4h ago | — |
+| top11 | Syndicate to Dev.to | ✅ HEALTHY | 3.0h ago | — |
+| top11 | Weekly index audit | ✅ HEALTHY | 7.0h ago | — |
 
 ### Needs a human / root-cause fix
 - **horror5how/beyond-elevation** → LinkedIn Scheduled Posts (5× Daily): FAILING after 3 auto-heals. job "post" step "Publish next pending post from queue". https://github.com/horror5how/beyond-elevation/actions/runs/27229218300
