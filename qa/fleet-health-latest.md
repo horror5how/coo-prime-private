@@ -1,24 +1,24 @@
-🩺 **COO Fleet Health** — last check 2026-06-13T20:23:05.671Z
+🩺 **COO Fleet Health** — last check 2026-06-13T22:14:41.245Z
 
 **15** scheduled routines · **10** healthy · **5** unhealthy · **5** escalated
 
 | repo | routine | status | last run | action |
 |---|---|---|---|---|
-| beyond-elevation | Daily Blog Draft Review Digest | 🕒 STALLED | 7.2d ago | ESCALATED (3 heals failed) |
-| getinpositions | Blog Content Engine | ❌ FAILING | 3.9d ago | ESCALATED (3 heals failed) |
-| instagram-autopilot | autopilot-hourly | ❌ FAILING | 2.9d ago | ESCALATED (3 heals failed) |
+| beyond-elevation | Daily Blog Draft Review Digest | 🕒 STALLED | 7.3d ago | ESCALATED (3 heals failed) |
+| getinpositions | Blog Content Engine | ❌ FAILING | 4.0d ago | ESCALATED (3 heals failed) |
+| instagram-autopilot | autopilot-hourly | ❌ FAILING | 3.0d ago | ESCALATED (3 heals failed) |
 | patent-ceo-cron | Weekly Patent-CEO Sheet | 🕒 STALLED | 16.7d ago | ESCALATED (3 heals failed) |
 | patent-ceo-cron | Patent CEO Daily Pusher | 🗑️ WORKFLOW_MISSING | 19.4d ago | workflow file deleted — restore required (cannot auto-dispatch) |
-| beyond-elevation | Daily AI & GitHub Digest Email | ✅ HEALTHY | 10.6h ago | — |
-| beyond-elevation | LinkedIn Scheduled Posts (5× Daily) | ✅ HEALTHY | 2.4h ago | — |
-| coo-prime-private | coo-cross-repo-watchdog | ✅ HEALTHY | 8.2h ago | — |
-| coo-prime-private | coo-scheduler-watchdog | ✅ HEALTHY | 0.6h ago | — |
-| coo-prime-private | coo-scheduler | ✅ HEALTHY | 0.6h ago | — |
-| top11 | CEO daily — Top Eleven growth loop | ✅ HEALTHY | 10.0h ago | — |
-| top11 | List factory (autonomous) | ✅ HEALTHY | 2.6h ago | — |
-| top11 | Review Pulse — nightly refresh | ✅ HEALTHY | 13.2h ago | — |
-| top11 | Syndicate to Dev.to | ✅ HEALTHY | 10.7h ago | — |
-| top11 | Weekly index audit | ✅ HEALTHY | 2.1h ago | — |
+| beyond-elevation | Daily AI & GitHub Digest Email | ✅ HEALTHY | 12.4h ago | — |
+| beyond-elevation | LinkedIn Scheduled Posts (5× Daily) | ✅ HEALTHY | 4.2h ago | — |
+| coo-prime-private | coo-cross-repo-watchdog | ✅ HEALTHY | 10.1h ago | — |
+| coo-prime-private | coo-scheduler-watchdog | ✅ HEALTHY | 0.0h ago | — |
+| coo-prime-private | coo-scheduler | ✅ HEALTHY | 0.1h ago | — |
+| top11 | CEO daily — Top Eleven growth loop | ✅ HEALTHY | 11.8h ago | — |
+| top11 | List factory (autonomous) | ✅ HEALTHY | 0.6h ago | — |
+| top11 | Review Pulse — nightly refresh | ✅ HEALTHY | 15.1h ago | — |
+| top11 | Syndicate to Dev.to | ✅ HEALTHY | 12.5h ago | — |
+| top11 | Weekly index audit | ✅ HEALTHY | 3.9h ago | — |
 
 ### Needs a human / root-cause fix
 - **horror5how/beyond-elevation** → Daily Blog Draft Review Digest: STALLED after 3 auto-heals. . https://github.com/horror5how/beyond-elevation/actions/runs/27065236698
